@@ -45,6 +45,7 @@ export default defineComponent({
     HeaderComponent
   },
   setup() {
+    // 마우스 스크롤 이벤트
     let scrollTarget = window
     let isScrolling = false
     let targetScroll = 0
