@@ -33,20 +33,25 @@
           <hgroup>
             <h3>Web Project</h3>
           </hgroup>
-          <div v-for="(project, index) in projects" :key="index" class="Proj_Container">
-            <ul class="Proj_Title">
-              <li class="date">{{ project.year }}</li>
-              <li class="Title">{{ project.title }}</li>
-              <li class="role">{{ project.role }}</li>
-              <li class="desc">{{ project.desc }}</li>
-            </ul>
-            <div class="Btn_Container">
-              <a href="#" @click.prevent="openPopup(project)">Work Process</a>
+          <div class="Section3Wrap">
+            <button @click="prevProject" :disabled="currentIndex === 0" class="prevProj">Prev</button>
+            <div class="Proj_Container">
+              <ul class="Proj_Title">
+                <li class="date">{{ currentProject.year }}</li>
+                <li class="Title">{{ currentProject.title }}</li>
+                <li class="role">{{ currentProject.role }}</li>
+                <li class="desc">{{ currentProject.desc }}</li>
+              </ul>
+              <div class="Btn_Container">
+                <a href="#" @click.prevent="openPopup(currentProject)">Work Process</a>
+              </div>
             </div>
+            <button @click="nextProject" :disabled="currentIndex === projects.length - 1" class="nextProj">Next</button>
           </div>
           <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
             <div class="popup-content">
               <div class="popBtnContainer">
+                <h4>Work Process</h4>
                 <button @click="closePopup">닫기</button>
               </div>
               <div class="popImgContainer" v-if="selectedProject.images && selectedProject.images.length">
@@ -126,11 +131,37 @@ export default defineComponent({
         ],
         backgroundImage: 'url(/img/pcm-bg.jpg)' 
       },
+            { 
+        year: '2023 - 2024', 
+        title: '자이가이스트(주)',
+        role:'Prototype 제작 | Web Publishing + FrontEnd 개발 Support',
+        desc:'자이가이스트(주) 모듈형 주택 Web Viewer, Web Editor 구축' ,
+        intro:'GS건설 계열사인 자이가이스트(주)는 목조 모듈러 주택을 전문으로 하는 기업으로, 자사 주택 제품의 프로토타입 및 커스터마이징 기능을 제공하기 위한 Web 기반 3D Viewer 및 Editor를 구축하였습니다. Three.js와 Babylon.js를 활용해 3D 모델을 실시간 렌더링하고, 사용자 중심의 모듈 조합형 설계 도구를 제공하여 비전문가도 직접 원하는 집을 구성할 수 있는 UX를 구현한 것이 핵심입니다.',
+        used:'Figma, Vue.js, Babylon.js, Three.js',
+        work:'- Vue.js + Three.js 기반의 3D Viewer / Editor 페이지 설계 및 구현<br>- 3D 모델 로딩 및 렌더링 최적화, 카메라 제어, 마우스 이벤트 처리 등 Three.js 전반 구현<br>-모듈(지붕, 내/외장재, 벽체 등) 선택 및 배치 기능 구현<br>- 사용자 입력 기반 실시간 모델 업데이트 및 상태 저장 기능 개발<br>- 사용자가 구성한 설계 결과를 저장하여 실제 주택 제작 관련 상담 시 상담 참조 자료로 활용할 수 있도록 구조 설계<br>- Editor 모드와 Viewer 모드 간의 전환 및 기능 구분 구현',
+        major:'- 자이가이스트의 모듈러 주택 프로토타입 모델과 도면을 Three.js로 실시간 3D 렌더링하여 시각화<br>- 사용자 맞춤 설계를 위한 모듈 선택 및 조합 인터페이스 제공.<br>- 사용자가 직접 지붕, 내장재, 외장재, 가벽 등 구성 요소를 선택해 원하는 주택을 자유롭게 커스터마이징 가능<br>- 하나의 화면에서 1층, 2층 등 다층 구조를 동시에 설계 및 미리보기 가능<br>- Three.js 기반의 직관적인 조작 UX: 드래그, 클릭, 마우스 휠 등을 활용한 조작<br>- 각 페이지별 수정 내역 이력 관리 (사용자, 시간, 내용)',
+        images:[
+          '/img/pcm-1.png',
+          '/img/pcm-2.png',
+          '/img/pcm-3.jpg',
+          '/img/pcm-4.png',
+          '/img/pcm-5.png',
+          '/img/pcm-6.png',
+          '/img/pcm-7.jpg',
+          '/img/pcm-8.png',
+          '/img/pcm-9.png',
+          '/img/pcm-10.png',
+        ],
+        backgroundImage: 'url(/img/pcm-bg.jpg)' 
+      },
     ])
     const currentIndex = ref(0)
     const popupVisible  = ref(false);
-    const selectedProject = ref(projects.value[0] || {})
+    //const selectedProject = ref(projects.value[0] || {})
+    const selectedProject = ref(null);
     const currentImageIndex = ref(0)
+    
+const currentProject = computed(() => projects.value[currentIndex.value] || null)
 
     const sectionStyle = computed(() => {
       if (selectedProject.value?.backgroundImage) {
@@ -143,7 +174,15 @@ export default defineComponent({
       }
       return {}
     })
+const prevProject = () => {
+  if (projects.value.length === 0) return
+  currentIndex.value = (currentIndex.value - 1 + projects.value.length) % projects.value.length
+}
 
+const nextProject = () => {
+  if (projects.value.length === 0) return
+  currentIndex.value = (currentIndex.value + 1) % projects.value.length
+}
     const openPopup = (project) => {
       selectedProject.value = project
       currentImageIndex.value = 0 // 슬라이더 초기화
@@ -182,7 +221,10 @@ export default defineComponent({
       prevImage,
       nextImage,
       currentImageIndex,
-      sectionStyle
+      sectionStyle,
+      currentProject,
+      prevProject,
+      nextProject,
     }
   }
 })
