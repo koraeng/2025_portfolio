@@ -2,7 +2,7 @@
     <div id="Header_Wrapper">
         <div class="Header_Container">
             <hgroup>
-                <h2>YeRin</h2>
+                <h2>YeRin's Web PortFolio</h2>
                 <h4>2025® - HanYeRin All Rights Reserved</h4>
             </hgroup>
         </div>

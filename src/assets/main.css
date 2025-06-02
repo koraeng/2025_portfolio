@@ -10,6 +10,10 @@
     text-decoration: none;
     letter-spacing: -0.25px;
 }
+ol, ul {
+    margin: 0;
+    padding: 0;
+}
 html, body {
     margin: 0;
     padding: 0;
@@ -17,21 +21,21 @@ html, body {
     width: 100%;
     scroll-behavior: smooth;
 }
-
 #Root {
     width:100%;
-    height: 100vh;
+    min-height: 100vh;
+    /* height:100vh; */
     display: grid;
-    grid-template-rows: 120px 1fr;
+    grid-template-rows: 60px auto;
 }
 .Main_Wrapper {
     grid-row: 2;
-
+    /* height: 100%; */
 }
 #Section1,
-#Section2 {
+#Section2,
+#Section3 {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -39,16 +43,17 @@ html, body {
 }
 #Section1 {
     grid-column: 1 / 15;
+    height: 100%;
+    background-color: black;
 }
 .Main_Container {
     display: grid;
     grid-template-columns: 120px repeat(12, 1fr) 120px;
-    grid-template-rows: repeat(3, 100%);
+    grid-template-rows: calc(100% - 60px) 100% 100%;
     -moz-column-gap: 24px;
     column-gap: 24px;
-    background-color: black;
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 .Main_Title {
     color:#ffffff;
@@ -57,12 +62,35 @@ html, body {
     justify-content: center;
     align-items: center;
 }
-.Main_Title h4 {
+.Main_Title h3 {
     font-size:2.4rem;
 }
 .Main_Title h2 {
     font-family: Shrikhand, sans-serif;
     font-size: 8.4rem;
+    color: rgba(255, 255, 255, 0.2); 
+    background-size: 101% 100%; 
+    background-position: left 0px bottom -40px;
+    background-repeat: repeat-x;
+    -webkit-background-clip: text; 
+    -moz-background-clip: text; 
+    background-clip: text;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 90 240 300' preserveAspectRatio='none'%3E%3Crect x='0' y='0' width='500' height='800' style='stroke: none; fill: rgb(22,255,244);' /%3E%3Cpath d='M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z' style='stroke: none;'%3E%3C/path%3E%3C/svg%3E");
+    animation: wave 3s both linear infinite
+}
+@keyframes wave {
+    0% {
+        background-position: left 0px bottom -80px;
+    }
+    100% { 
+        background-position: left 1500px bottom 20px;
+    }
+}
+.Main_Title h4 {
+    padding:20px 0 0 0;
+    font-size:2rem;
+    text-align: center;
+    line-height: 1.8;
 }
 #Section2 {
     grid-row: 2;
@@ -125,4 +153,205 @@ html, body {
     border-radius: 8px;
     cursor:pointer;
     text-decoration: none;
+}
+#Section3 {
+    position: relative;
+    z-index: 0; /* 기본 */
+    grid-row: 3;
+    grid-column: 1 / 15;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(0,0,0,0.5);
+}
+#Section3::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* 검은색 50% 투명도 */
+  z-index: 1;
+}
+#Section3 hgroup {
+    z-index: 10;
+    width:calc(100% - 240px);
+    padding-bottom:12px;
+    color:#ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+#Section3 hgroup h3 {
+    width:100%;
+    padding-bottom:24px;
+    font-size:2.4rem;
+    border-bottom:1px solid #ffff;
+}
+.Proj_Container {
+    z-index: 10;
+    width: calc(100% - 240px);
+    height: calc(100% - 320px);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+.background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 영상 크기 비율 유지하며 채움 */
+    transform: translate(-50%, -50%);
+    z-index: -1; /* 내용 뒤에 배치 */
+    pointer-events: none; /* 클릭 무시 */
+    opacity: 0.5;
+}
+.Proj_Title {
+    border-bottom:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 1;
+    transition: all 0.3s ease;
+}
+.role {
+    padding:84px 0 0 0;
+    font-size:2.4rem;
+    font-weight: 500;
+}
+.desc {
+    font-size: 1.8rem;
+}
+.date {
+    font-size:2.8rem
+}
+.Title {
+    font-size:6.4rem;
+    font-weight: 500;
+    letter-spacing: -2px;
+}
+.Btn_Container {
+    padding-top:48px
+}
+.Btn_Container a {
+    text-decoration: none;
+    padding:8px 24px;
+    border:1px solid white;
+    font-size: 1.8rem;
+    color:#fff;
+    border-radius: 8px;
+}
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1200px;
+    max-height: 800px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+.introContainer,
+.descContainer,
+.workContainer,
+.majorContainer {
+    border-bottom:1px solid #ddd;
+    padding: 15px 0;
+}
+.majorContainer {
+    border-bottom:0 !important;
+}
+.introContainer h2,
+.descContainer h2,
+.workContainer h2,
+.majorContainer h2 {
+    font-size:2.4rem;
+    font-weight: 700;
+    letter-spacing: -2px;
+    color:#313131;
+    padding:0 0 20px 0;
+}
+.introContainer p strong {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+.introContainer p {
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: -0.4px;
+}
+.descContainer p,
+.workContainer p,
+.majorContainer p {
+    font-size: 1.6rem;
+    font-weight: 300;
+    word-break: keep-all;
+    letter-spacing: -0.4px;
+}
+.workContainer p,
+.majorContainer p {
+    line-height: 2;
+}
+.popBtnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+.popup-content button {
+    font-size: 1rem;
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: 0;
+    position: relative;
+    top:0;
+    right:0;
+    background:#313131;
+    color:#fff;
+}
+.popImgContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;;
+    gap: 20px;
+}
+
+.slide-image {
+    max-width: 900px;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    margin-bottom: 8rem;
+}
+.popImgContainer .prevBtn,
+.popImgContainer .nextBtn {
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    font-size:1.2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
 }
