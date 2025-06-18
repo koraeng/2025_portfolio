@@ -27,13 +27,16 @@ h1, h2, h3, h4 {
 }
 #Root {
     width:100%;
-    min-height: 100vh;
+    height: 100vh;
+    background:#111;
+    /* min-height: 100vh;
     /* height:100vh; */
-    display: grid;
-    grid-template-rows: 60px auto;
+    /* display: grid;
+    grid-template-rows: 60px auto; */
 }
 .Main_Wrapper {
-    grid-row: 2;
+   width: 100%;
+   height: 100%;
     /* height: 100%; */
 }
 #Section1,
@@ -41,6 +44,7 @@ h1, h2, h3, h4 {
 #Section3,
 #Section4 {
     width: 100%;
+    height: 100%;;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -273,13 +277,14 @@ svg.svg-inline--fa:not(:host) {
 .Btn_Container {
     padding-top:48px
 }
-.Btn_Container a {
+.Btn_Container button {
     text-decoration: none;
     padding:8px 24px;
     border:1px solid white;
     font-size: 1.8rem;
     color:#fff;
     border-radius: 8px;
+    background:0;
 }
 .popup-overlay {
     position: fixed;

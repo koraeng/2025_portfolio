@@ -25,7 +25,7 @@
               HTML, CSS, JavaScript를 활용한 정확하고 효율적인 코딩과 크로스브라우징, 반응형 웹 구현 능력을 갖추었으며, SEO와 웹 접근성 기준을 철저히 반영하여 언제나 최적의 사용자 경험을 실현하고자 노력하고 있습니다.<br>
               특히 브랜드의 핵심 메시지와 정체성을 명확하게 시각화하고, 오프라인과 온라인을 아우르는 통합 퍼블리싱 전략을 수립 및 실행하는 데 강점을 가지고 있습니다.<br>
               앞으로도 다양한 플랫폼에서 차별화된 사용자 경험과 일관된 브랜드 아이덴티티를 완성하는 웹 퍼블리셔로 성장해 나가겠습니다.
-              <a href="https://www.notion.so/216ffb53e14a8041af09de3909825c86?source=copy_link"><font-awesome-icon :icon="['fas', 'circle-chevron-right']" />자기소개 더보기</a></h4>
+              <a href="https://www.notion.so/216ffb53e14a8041af09de3909825c86?source=copy_link" target="_blank"><font-awesome-icon :icon="['fas', 'circle-chevron-right']" />자기소개 더보기</a></h4>
           </hgroup>
         </section>
         <section id="Section3" ref="containerRef" :style="sectionStyle">
@@ -43,7 +43,7 @@
           </hgroup>
           <div class="Section3Wrap">
             <button @click="prevProject" :disabled="currentIndex === 0" class="prevProj">Prev</button>
-            <div class="Proj_Container" :style="{ backgroundImage: currentProject.backgroundImage ? `url(${currentProject.backgroundImage})` : 'none' }">
+            <div class="Proj_Container">
               <ul class="Proj_Title">
                 <li class="date">{{ currentProject.year }}</li>
                 <li class="Title">{{ currentProject.title }}</li>
@@ -51,45 +51,11 @@
                 <li class="desc">{{ currentProject.desc }}</li>
               </ul>
               <div class="Btn_Container">
-                <a href="#" @click.prevent="openPopup(currentProject)">View More</a>
+                <button @click="openPopup(currentProject, 'dev')">View More</button>
+                <!-- <a href="#" @click.prevent="openPopup(currentProject)">View More</a> -->
               </div>
             </div>
             <button @click="nextProject" :disabled="currentIndex === projects.length - 1" class="nextProj">Next</button>
-          </div>
-          <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
-            <div class="popup-content">
-              <div class="popBtnContainer">
-                <h4>Project Info</h4>
-                <button @click="closePopup">닫기</button>
-              </div>
-              <div class="popImgContainer" v-if="selectedProject.images && selectedProject.images.length">
-                <button class="prevBtn" @click="prevImage">◀</button>
-                <img
-                  :src="selectedProject.images[currentImageIndex]"
-                  alt="Project Image"
-                  class="slide-image"
-                />
-                <button class="nextBtn" @click="nextImage">▶</button>
-              </div>
-              <div class="introContainer">
-                <h2>💼{{ selectedProject.title }}</h2>
-                <p><strong>개발기간</strong><br>{{ selectedProject.year }}</p>
-                <p><strong>담당역할</strong><br>{{ selectedProject.role }}</p>
-                <p><strong>사용기술</strong><br>{{ selectedProject.used }}</p>
-                <div class="descContainer">
-                  <h2>📌프로젝트 개요</h2>
-                  <p>{{ selectedProject.intro }}</p>
-                </div>
-                <div class="workContainer">
-                  <h2>🔧주요업무 및 역할</h2>
-                  <p v-html="selectedProject.work"></p>
-                </div>
-                <div class="majorContainer">
-                  <h2>📊 주요기능</h2>
-                  <p v-html="selectedProject.major"></p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -100,51 +66,85 @@
           </hgroup>
           <div class="Section4Wrap">
                       <button @click="prevDesignProject" :disabled="designIndex === 0" class="prevProj">Prev</button>
-          <div class="Proj_Container" :style="{ backgroundImage: designCurrentProject?.designbackgroundImage ? `url(${designCurrentProject.designbackgroundImage})` : 'none' }">
+          <div class="Proj_Container">
 
-              <ul class="Proj_Title">
-                <li class="date">{{ designCurrentProject.year }}</li>
-                <li class="Title">{{ designCurrentProject.title }}</li>
-                <li class="role">{{ designCurrentProject.role }}</li>
-                <li class="desc">{{ designCurrentProject.desc }}</li>
-              </ul>
+            <ul class="Proj_Title">
+              <li class="date">{{ designCurrentProject.year }}</li>
+              <li class="Title">{{ designCurrentProject.title }}</li>
+              <li class="role">{{ designCurrentProject.role }}</li>
+              <li class="desc">{{ designCurrentProject.desc }}</li>
+            </ul>
               <div class="Btn_Container">
-                <a href="#" @click.prevent="openPopup(designCurrentProject)">View More</a>
+                <button @click="openPopup(designCurrentProject, 'design')">View More</button>
+                <!-- <a href="#" @click.prevent="openPopup(designCurrentProject)">View More</a> -->
               </div>
             </div>
           <button @click="nextDesignProject" :disabled="designIndex === designprojects.length - 1" class="nextProj">Next</button>
           </div>
-
-          <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
-            <div class="popup-content">
-              <div class="popBtnContainer">
-                <h4>Project Info</h4>
-                <button @click="closePopup">닫기</button>
-              </div>
-              <div class="popImgContainer" v-if="selectedProject.images && selectedProject.images.length">
-                <button class="prevBtn" @click="prevImage">◀</button>
-                <img
-                  :src="selectedProject.images[currentImageIndex]"
-                  alt="Project Image"
-                  class="slide-image"
-                />
-                <button class="nextBtn" @click="nextImage">▶</button>
-              </div>
-              <div class="introContainer">
-                <h2>💼{{ selectedProject.title }}</h2>
-                <p><strong>기획기간</strong><br>{{ selectedProject.year }}</p>
-                <p><strong>기획분야</strong><br>{{ selectedProject.role }}</p>
-                <p><strong>사용기술</strong><br>{{ selectedProject.used }}</p>
-              </div>
-            </div>
-          </div>
         </section>
 
+      <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
+        <div class="popup-content">
+          <div class="popBtnContainer">
+            <h4>Project Info</h4>
+            <button @click="closePopup">닫기</button>
+          </div>
 
+          <!-- ✅ 개발 프로젝트용 팝업 -->
+          <template v-if="popupType === 'dev' && selectedProject">
+            <div class="popImgContainer" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">
+              <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
+            <img
+                :src="popupType === 'dev' ? selectedProject.images[currentImageIndex] : designSelectedProject.images[currentImageIndex]"
+                alt="Project Image"
+                class="slide-image"
+              />
+              <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
+            </div>
+            <div class="introContainer">
+              <h2>💼{{ selectedProject.title }}</h2>
+              <p><strong>개발기간</strong><br>{{ selectedProject.year }}</p>
+              <p><strong>담당역할</strong><br>{{ selectedProject.role }}</p>
+              <p><strong>사용기술</strong><br>{{ selectedProject.used }}</p>
+              <div class="descContainer">
+                <h2>📌프로젝트 개요</h2>
+                <p>{{ selectedProject.intro }}</p>
+              </div>
+              <div class="workContainer">
+                <h2>🔧주요업무 및 역할</h2>
+                <p v-html="selectedProject.work"></p>
+              </div>
+              <div class="majorContainer">
+                <h2>📊 주요기능</h2>
+                <p v-html="selectedProject.major"></p>
+              </div>
+            </div>
+          </template>
+
+          <!-- ✅ 디자인 프로젝트용 팝업 -->
+          <template v-else-if="popupType === 'design' && designSelectedProject">
+            <div class="popImgContainer" v-if="designSelectedProject.images?.length">
+              <button class="prevBtn" @click="prevImage">◀</button>
+              <img
+                :src="designSelectedProject.images[currentImageIndex]"
+                alt="Project Image"
+                class="slide-image"
+              />
+              <button class="nextBtn" @click="nextImage">▶</button>
+            </div>
+            <div class="introContainer">
+              <h2>💼{{ designSelectedProject.title }}</h2>
+              <p><strong>기획기간</strong><br>{{ designSelectedProject.year }}</p>
+              <p><strong>기획분야</strong><br>{{ designSelectedProject.role }}</p>
+              <p><strong>사용기술</strong><br>{{ designSelectedProject.used }}</p>
+            </div>
+          </template>
+        </div>
+      </div>
         <ul class="MenuBtn_Container">
-          <li><a href="#Section2">Introduce</a></li>
-          <li><a href="#Section3">Web Projects</a></li>
-          <li><a href="#Section4">Design Projects</a></li>
+ <li><a href="#" @click.prevent="scrollToSection('Section2')">Introduce</a></li>
+  <li><a href="#" @click.prevent="scrollToSection('Section3')">Web Projects</a></li>
+  <li><a href="#" @click.prevent="scrollToSection('Section4')">Design Projects</a></li>
         </ul>
         <button class="onClickTop" @click="onClickTop">Top</button>
       </div>
@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { defineComponent,  onBeforeUnmount, ref, computed } from 'vue'
+import { defineComponent,   onMounted, onBeforeUnmount, ref, computed } from 'vue'
 import HeaderComponent from "../HeaderComponent.vue"
 
 
@@ -163,6 +163,41 @@ export default defineComponent({
   },
   setup() {
     let rafId = null
+    const sectionIds = ['Section2', 'Section3', 'Section4'];
+    const currentSectionIndex = ref(0);
+    let isScrolling = false;
+    const handleWheel = (event) => {
+      if (isScrolling) return;
+
+      if (event.deltaY > 0 && currentSectionIndex.value < sectionIds.length - 1) {
+        currentSectionIndex.value++;
+      } else if (event.deltaY < 0 && currentSectionIndex.value > 0) {
+        currentSectionIndex.value--;
+      } else {
+        return;
+      }
+
+      const targetId = sectionIds[currentSectionIndex.value];
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        isScrolling = true;
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+
+        setTimeout(() => {
+          isScrolling = false;
+        }, 1000); // 스크롤 간 딜레이
+      }
+    };
+
+    const scrollToSection = (id) => {
+      const index = sectionIds.indexOf(id);
+      if (index !== -1) {
+        currentSectionIndex.value = index;
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
     const containerRef = ref(null)
     //const designcontainerRef = ref(null);
     const base = process.env.BASE_URL || '/';
@@ -219,7 +254,7 @@ export default defineComponent({
         //   '/img/pcm-9.png',
         //   '/img/pcm-10.png',
         // ],
-        backgroundImage: base + 'pcm-bg.jpg',
+        backgroundImage:base + 'img/pcm-bg.jpg',
         //backgroundImage: '/img/pcm-bg.jpg',
       },
       { 
@@ -247,19 +282,10 @@ export default defineComponent({
     ]);
 
     const currentIndex = ref(0);
-    const popupVisible  = ref(false);
-    const selectedProject = ref({
-      title: '',
-      year: '',
-      role: '',
-      used: '',
-      intro: '',
-      work: '',
-      major: '',
-      images: [],
-      section: null // Section3 or Section4에서 지정
-    })
-
+    const popupVisible = ref(false);
+    const popupType = ref(''); // 'dev' or 'design'
+    const selectedProject = ref(null);
+    const designSelectedProject = ref(null);
     const currentImageIndex = ref(0);
 
     const currentProject = computed(() => projects.value[currentIndex.value] || null)
@@ -272,35 +298,34 @@ export default defineComponent({
     });
 
 
+  const sectionStyle = computed(() => {
+    if (!currentProject.value) return {};
 
-const sectionStyle = computed(() => {
-  if (!currentProject.value) return {};
+    if (isVideoBackground.value) {
+      return {
+        backgroundColor: '#000'
+      };
+    } else {
+      let bg = currentProject.value.backgroundImage;
+      if (!bg) return {};
 
-  if (isVideoBackground.value) {
-    return {
-      backgroundColor: '#000'
-    };
-  } else {
-    let bg = currentProject.value.backgroundImage;
-    if (!bg) return {};
+      // vue-cli 환경에서는 import.meta.env 대신 process.env 사용
+      const baseUrl = process.env.VUE_APP_BASE_URL || '';
 
-    // vue-cli 환경에서는 import.meta.env 대신 process.env 사용
-    const baseUrl = process.env.VUE_APP_BASE_URL || '';
+      if (bg.startsWith('/') && baseUrl) {
+        bg = baseUrl + bg.slice(1);
+      }
 
-    if (bg.startsWith('/') && baseUrl) {
-      bg = baseUrl + bg.slice(1);
+      const url = bg.startsWith('url(') ? bg : `url(${bg})`;
+
+      return {
+        backgroundImage: url,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      };
     }
-
-    const url = bg.startsWith('url(') ? bg : `url(${bg})`;
-
-    return {
-      backgroundImage: url,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    };
-  }
-});
+  });
 
 
     const prevProject = () => {
@@ -312,20 +337,30 @@ const sectionStyle = computed(() => {
       if (projects.value.length === 0) return
       currentIndex.value = (currentIndex.value + 1) % projects.value.length
     }
-    const openPopup = (project) => {
-      selectedProject.value = project
-      currentImageIndex.value = 0 // 슬라이더 초기화
-      popupVisible.value = true
-    }
+
+function openPopup(project, type) {
+  popupType.value = type;
+  popupVisible.value = true;
+  if (type === 'dev') {
+    selectedProject.value = project;
+  } else if (type === 'design') {
+    designSelectedProject.value = project;
+  }
+  currentImageIndex.value = 0; // 이미지 슬라이드 초기화
+}
 
     const closePopup = () => {
       popupVisible.value = false
     }
 
+
+    onMounted(() => {
+      window.addEventListener('wheel', handleWheel, { passive: false });
+    });
     onBeforeUnmount(() => {
-      window.removeEventListener('wheel')
-      cancelAnimationFrame(rafId)
-    })
+    window.removeEventListener('wheel', handleWheel);
+      cancelAnimationFrame(rafId);
+    });
 
     const nextImage = () => {
       const total = selectedProject.value.images?.length || 0
@@ -338,12 +373,27 @@ const sectionStyle = computed(() => {
       if (total === 0) return
       currentImageIndex.value = (currentImageIndex.value - 1 + total) % total
     }
-    // const scrollY = 0;
-    function onClickTop() {
-        window.scrollTo({ top: 0, behavior: "smooth" }) 
-        // behavior 스크롤 이벤트로 올라가는 속도를 부드럽게 만들어줌.
+    function findScrollable(el = document.body) {
+      if (!el) return null;
+      if (el.scrollHeight > el.clientHeight && getComputedStyle(el).overflowY !== 'visible' && getComputedStyle(el).overflowY !== 'hidden') {
+        return el;
+      }
+      for (const child of el.children) {
+        const scrollable = findScrollable(child);
+        if (scrollable) return scrollable;
+      }
+      return null;
     }
-    const baseUrl = process.env.VUE_APP_BASE_URL || '/';
+    const onClickTop = () => {
+      const scrollContainer = findScrollable();
+      if (scrollContainer) {
+        scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+    const baseUrl =  process.env.BASE_URL || '/';
+
     const designprojects = ref([ 
       { 
         year: '2022', 
@@ -351,6 +401,7 @@ const sectionStyle = computed(() => {
         role:'Branding Design',
         desc:'법무법인 팔마 브랜딩 프로젝트' ,
         used:'Adobe Illustrator, Adobe Photoshop',
+        // intro:'조선시대 임금님이 직접 특명해 이들을 비밀리에 보내면서 수령의 득실과 백성의 질고를 탐문하고 돌아와 임금에게 사실대로 아뢰는 것을 직무로 한 암행어사의 마패를 형상화 하였습니다.<br>마패를 팔각형으로 표현하고, 미니멀리즘을 바탕으로 하여 간결하면서 상호명에 임펙트를 주어 표현하였습니다.',
         // images:[
         //   '/img/palma_01.jpg',
         //   '/img/palma_02.jpg',
@@ -363,7 +414,7 @@ const sectionStyle = computed(() => {
           baseUrl + 'img/palma_03.jpg',
           baseUrl + 'img/palma_04.jpg',
         ],
-        designbackgroundImage: baseUrl + 'palma_03.jpg',
+        designbackgroundImage: baseUrl + 'img/palma_03.jpg',
         //designbackgroundImage: '/img/palma_03.jpg',
       },
       { 
@@ -373,40 +424,15 @@ const sectionStyle = computed(() => {
         desc:'마케집 브랜딩 디자인 & 사인물 프로젝트' ,
         used:'Adobe Illustrator, Adobe Photoshop',
         images:[
-        '/img/make2.jpg',
-        '/img/make3.jpg',
-        '/img/make4.jpg',
-        '/img/make5.jpg',
-        '/img/make6.jpg',
-        '/img/make7.jpg',
-        '/img/make8.jpg',
+          baseUrl + 'img/make2.jpg',
+          baseUrl + 'img/make3.jpg',
+          baseUrl + 'img/make4.jpg',
+          baseUrl + 'img/make5.jpg',
+          baseUrl + 'img/make6.jpg',
+          baseUrl + 'img/make7.jpg',
+          baseUrl + 'img/make8.jpg',
         ],
-        designbackgroundImage: '/img/make2.jpg',
-      },
-            { 
-        year: '2021', 
-        title: '마케집',
-        role:'Branding Design | Signage Design',
-        desc:'마케집 브랜딩 디자인 & 사인물 프로젝트' ,
-        used:'Adobe Illustrator, Adobe Photoshop',
-        images:[
-        base + 'img/make2.jpg',
-        base + 'img/make3.jpg',
-        base + 'img/make4.jpg',
-        base + 'img/make5.jpg',
-        base + 'img/make6.jpg',
-        base + 'img/make7.jpg',
-        base + 'img/make8.jpg',
-
-        // '/img/make2.jpg',
-        // '/img/make3.jpg',
-        // '/img/make4.jpg',
-        // '/img/make5.jpg',
-        // '/img/make6.jpg',
-        // '/img/make7.jpg',
-        // '/img/make8.jpg',
-        ],
-        designbackgroundImage: base + 'palma_02.jpg',
+        designbackgroundImage: baseUrl + 'img/make3.jpg',
       },
       { 
         year: '2021', 
@@ -415,22 +441,23 @@ const sectionStyle = computed(() => {
         desc:'(주)농심 안양공장 홍보관 내부사인물 프로젝트' ,
         used:'Adobe Illustrator, Adobe Photoshop',
         images:[
-          base + 'img/nong_1.jpg',
-          base + 'img/nong_2.jpg',
-          base + 'img/nong_3.jpg',
-          base + 'img/nong_4.jpg',
+          baseUrl + 'img/nong_1.jpg',
+          baseUrl + 'img/nong_2.jpg',
+          baseUrl + 'img/nong_3.jpg',
+          baseUrl + 'img/nong_4.jpg',
 
           // '/img/nong_1.jpg',
           // '/img/nong_2.jpg',
           // '/img/nong_3.jpg',
           // '/img/nong_4.jpg',
         ],
-        designbackgroundImage: base + 'palma_02.jpg',
+        designbackgroundImage: base + 'img/nong_3.jpg',
         //designbackgroundImage: '/img/nong_3.jpg',
       },
     ]);
     const designIndex = ref(0);
-    const designCurrentProject = computed(() => designprojects.value[designIndex.value] || null)
+    const designCurrentProject = computed(() => designprojects.value[designIndex.value] || null);
+
 
     const isDesignVideoBackground = computed(() => {
       const bg = designCurrentProject.value?.designbackgroundImage
@@ -438,45 +465,47 @@ const sectionStyle = computed(() => {
       if (!bg) return false
       return bg.toLowerCase().endsWith('.mp4')
     })
-const designSectionStyle = computed(() => {
-  if (!designCurrentProject.value) return {};
+    const designSectionStyle = computed(() => {
+      if (!designCurrentProject.value) return {};
 
-  if (isDesignVideoBackground.value) {
-    return {
-      backgroundColor: '#111'
-    };
-  } else {
-    let bg = designCurrentProject.value.designbackgroundImage;
-    if (!bg) return {};
+      if (isDesignVideoBackground.value) {
+        return {
+          backgroundColor: '#111'
+        };
+      } else {
+        let bg = designCurrentProject.value.designbackgroundImage;
+        if (!bg) return {};
 
-    const baseUrl = process.env.VUE_APP_BASE_URL || '';
-    if (bg.startsWith('/') && baseUrl) {
-      bg = baseUrl + bg.slice(1);
-    }
+        const baseUrl = process.env.VUE_APP_BASE_URL || '';
+        if (bg.startsWith('/') && baseUrl) {
+          bg = baseUrl + bg.slice(1);
+        }
 
+        const url = bg.startsWith('url(') ? bg : `url(${bg})`;
 
-    const url = bg.startsWith('url(') ? bg : `url(${bg})`;
-
-    return {
-      backgroundImage: url,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-    };
-  }
-});
+        return {
+          backgroundImage: url,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        };
+      }
+    });
 
 
     const designPopupVisible = ref(false)
-    const designSelectedProject = ref(null)
+    // const designSelectedProject = ref(null)
     const designImageIndex = ref(0)
 
-    const prevDesignProject = () => {
-      designIndex.value = (designIndex.value - 1 + designprojects.value.length) % designprojects.value.length
-    }
-    const nextDesignProject = () => {
-      designIndex.value = (designIndex.value + 1) % designprojects.value.length
-    }
+const prevDesignProject = () => {
+  if (designprojects.value.length === 0) return;
+  designIndex.value = (designIndex.value - 1 + designprojects.value.length) % designprojects.value.length;
+};
+
+const nextDesignProject = () => {
+  if (designprojects.value.length === 0) return;
+  designIndex.value = (designIndex.value + 1) % designprojects.value.length;
+};
 
     return {
       containerRef,
@@ -504,7 +533,10 @@ const designSectionStyle = computed(() => {
       prevDesignProject,
       nextDesignProject,
       isDesignVideoBackground,
-      designCurrentProject
+      designCurrentProject,
+      designIndex,
+      popupType,
+      scrollToSection
     }
   }
 })
