@@ -165,7 +165,7 @@ export default defineComponent({
     let rafId = null
     const containerRef = ref(null)
     //const designcontainerRef = ref(null);
-    // 보여줄 프로젝트 목록
+    const base = process.env.BASE_URL || '/';
     const projects = ref([ 
       // web proj start
       { 
@@ -177,13 +177,14 @@ export default defineComponent({
         used:'Figma, Blazor WebAssembly',
         work:'- BIMIL Add-In의 기능 및 목적을 직관적으로 안내할 수 있는 콘텐츠 구조 설계<br>- 사용자 권한(Access)에 따른 현황 / 관리 페이지 접근 제한 기능 구현<br>- 제품 소개, 설치 가이드, 자주 묻는 질문 등 주요 메뉴 및 정보 배치 기획<br>- 반응형 UI 설계 및 구현을 통해 다양한 디바이스에서의 접근성 확보<br>- 사용자의 관심 유입을 위한 제품 특징 중심의 메인 페이지 구성<br>- Add-In 업데이트 및 버전별 기능 안내를 위한 구조 마련',
         major:'- BIMIL Add-In의 주요 기능, 활용 예시, 설치 효과 등을 시각적 요소와 함께 설명<br>- 사용자가 쉽게 Add-In을 설치하고 적용할 수 있도록 단계별 안내 제공<br>- Add-In 버전별 변경사항 소개<br>- PC, 태블릿, 모바일 등 다양한 환경에서 최적화된 레이아웃 제공<br>',
-        images:[
-          '/img/bimil-1.png',
-          '/img/bimil-2.png',
-          '/img/bimil-3.png',
-          '/img/bimil-bg.png',
+        images: [
+          base + 'img/bimil-1.png',
+          base + 'img/bimil-2.png',
+          base + 'img/bimil-3.png',
+          base + 'img/bimil-bg.png',
         ],
-        backgroundImage: '/ArchiFlim_EX.gif',
+        //backgroundImage: '/ArchiFlim_EX.gif',
+        backgroundImage: base + 'ArchiFlim_EX.gif',
       },
       { 
         year: '2024 - 2025', 
@@ -194,19 +195,32 @@ export default defineComponent({
         used:'Figma, Vue.js, MSSQL, Excel.js, Chart.js',
         work:'- 시스템 전체 기획 및 아키텍처 설계<br>- 사용자 권한(Access)에 따른 현황 / 관리 페이지 접근 제한 기능 구현<br>- 매출, 수금, 수주, 배분, 프로젝트, 단가, 인원, 목표, 비용 등 각 관리/현황 페이지 개발<br>- 월간 / 연간 데이터를 차트 및 테이블 형태로 시각화관리 이력(History) 기능을 통한 변경 로그 관리<br>- Excel 업로드 / 다운로드 기능을 통한 자료 연동 및 대량 처리 지원<br>- 데이터 무결성과 실시간 반영을 고려한 UX 개선',
         major:'- 사용자 권한 기반의 접근 제어 및 메뉴 노출 제어<br>- 다중 테이블 기반 복합 데이터 구조 설계 및 관리<br>- DevExtreme 라이브러리를 활용한 데이터 그리드, 차트 구성<br>- Excel 파일을 통해 대량 데이터 등록 / 수정<br>- 각 페이지별 수정 내역 이력 관리 (사용자, 시간, 내용)',
-        images:[
-          '/img/pcm-1.png',
-          '/img/pcm-2.png',
-          '/img/pcm-3.jpg',
-          '/img/pcm-4.png',
-          '/img/pcm-5.png',
-          '/img/pcm-6.png',
-          '/img/pcm-7.jpg',
-          '/img/pcm-8.png',
-          '/img/pcm-9.png',
-          '/img/pcm-10.png',
+        images: [
+          base + 'img/pcm-1.png',
+          base + 'img/pcm-2.png',
+          base + 'img/pcm-3.jpg',
+          base + 'img/pcm-4.png',
+          base + 'img/pcm-5.png',
+          base + 'img/pcm-6.png',
+          base + 'img/pcm-7.jpg',
+          base + 'img/pcm-8.png',
+          base + 'img/pcm-9.png',
+          base + 'img/pcm-10.png',
         ],
-        backgroundImage: '/img/pcm-bg.jpg',
+        // images:[
+        //   '/img/pcm-1.png',
+        //   '/img/pcm-2.png',
+        //   '/img/pcm-3.jpg',
+        //   '/img/pcm-4.png',
+        //   '/img/pcm-5.png',
+        //   '/img/pcm-6.png',
+        //   '/img/pcm-7.jpg',
+        //   '/img/pcm-8.png',
+        //   '/img/pcm-9.png',
+        //   '/img/pcm-10.png',
+        // ],
+        backgroundImage: base + 'pcm-bg.jpg',
+        //backgroundImage: '/img/pcm-bg.jpg',
       },
       { 
         year: '2023 - 2024', 
@@ -217,12 +231,17 @@ export default defineComponent({
         used:'Figma, Vue.js, Babylon.js, Three.js',
         work:'- Vue.js + Three.js 기반의 3D Viewer / Editor 페이지 설계 및 구현<br>- 3D 모델 로딩 및 렌더링 최적화, 카메라 제어, 마우스 이벤트 처리 등 Three.js 전반 구현<br>-모듈(지붕, 내/외장재, 벽체 등) 선택 및 배치 기능 구현<br>- 사용자 입력 기반 실시간 모델 업데이트 및 상태 저장 기능 개발<br>- 사용자가 구성한 설계 결과를 저장하여 실제 주택 제작 관련 상담 시 상담 참조 자료로 활용할 수 있도록 구조 설계<br>- Editor 모드와 Viewer 모드 간의 전환 및 기능 구분 구현',
         major:'- 자이가이스트의 모듈러 주택 프로토타입 모델과 도면을 Three.js로 실시간 3D 렌더링하여 시각화<br>- 사용자 맞춤 설계를 위한 모듈 선택 및 조합 인터페이스 제공.<br>- 사용자가 직접 지붕, 내장재, 외장재, 가벽 등 구성 요소를 선택해 원하는 주택을 자유롭게 커스터마이징 가능<br>- 하나의 화면에서 1층, 2층 등 다층 구조를 동시에 설계 및 미리보기 가능<br>- Three.js 기반의 직관적인 조작 UX: 드래그, 클릭, 마우스 휠 등을 활용한 조작<br>- 각 페이지별 수정 내역 이력 관리 (사용자, 시간, 내용)',
-        images:[
-          '/img/xigeist-bg.jpg',
-          '/img/xigeist-1.png',
+        // images:[
+        //   '/img/xigeist-bg.jpg',
+        //   '/img/xigeist-1.png',
 
+        // ],
+        images: [
+          base + 'img/xigeist-bg.jpg',
+          base + 'img/xigeist-1.png',
         ],
-        backgroundImage: 'mainMedia.mp4',
+        backgroundImage: base + 'mainMedia.mp4',
+        // backgroundImage: 'mainMedia.mp4',
       },
       // web proj end
     ]);
@@ -254,26 +273,35 @@ export default defineComponent({
 
 
 
-    const sectionStyle = computed(() => {
-      if (!currentProject.value) return {};
+const sectionStyle = computed(() => {
+  if (!currentProject.value) return {};
 
-      if (isVideoBackground.value) {
-        // 비디오 배경일 때는 backgroundImage 스타일를 안 넣음
-        return {
-          backgroundColor: '#000' // 검정 배경 등 기본값
-        };
-      } else {
-        // 이미지 배경일 때
-        const bg = currentProject.value.backgroundImage;
-        const url = bg.startsWith('url(') ? bg : `url(${bg})`;
-        return {
-          backgroundImage: url,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        };
-      }
-    });
+  if (isVideoBackground.value) {
+    return {
+      backgroundColor: '#000'
+    };
+  } else {
+    let bg = currentProject.value.backgroundImage;
+    if (!bg) return {};
+
+    // vue-cli 환경에서는 import.meta.env 대신 process.env 사용
+    const baseUrl = process.env.VUE_APP_BASE_URL || '';
+
+    if (bg.startsWith('/') && baseUrl) {
+      bg = baseUrl + bg.slice(1);
+    }
+
+    const url = bg.startsWith('url(') ? bg : `url(${bg})`;
+
+    return {
+      backgroundImage: url,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    };
+  }
+});
+
 
     const prevProject = () => {
       if (projects.value.length === 0) return
@@ -315,7 +343,7 @@ export default defineComponent({
         window.scrollTo({ top: 0, behavior: "smooth" }) 
         // behavior 스크롤 이벤트로 올라가는 속도를 부드럽게 만들어줌.
     }
-
+    const baseUrl = process.env.VUE_APP_BASE_URL || '/';
     const designprojects = ref([ 
       { 
         year: '2022', 
@@ -323,13 +351,20 @@ export default defineComponent({
         role:'Branding Design',
         desc:'법무법인 팔마 브랜딩 프로젝트' ,
         used:'Adobe Illustrator, Adobe Photoshop',
-        images:[
-          '/img/palma_01.jpg',
-          '/img/palma_02.jpg',
-          '/img/palma_03.jpg',
-          '/img/palma_04.jpg',
+        // images:[
+        //   '/img/palma_01.jpg',
+        //   '/img/palma_02.jpg',
+        //   '/img/palma_03.jpg',
+        //   '/img/palma_04.jpg',
+        // ],
+        images: [
+          baseUrl + 'img/palma_01.jpg',
+          baseUrl + 'img/palma_02.jpg',
+          baseUrl + 'img/palma_03.jpg',
+          baseUrl + 'img/palma_04.jpg',
         ],
-        designbackgroundImage: '/img/palma_03.jpg',
+        designbackgroundImage: baseUrl + 'palma_03.jpg',
+        //designbackgroundImage: '/img/palma_03.jpg',
       },
       { 
         year: '2022', 
@@ -355,15 +390,23 @@ export default defineComponent({
         desc:'마케집 브랜딩 디자인 & 사인물 프로젝트' ,
         used:'Adobe Illustrator, Adobe Photoshop',
         images:[
-        '/img/make2.jpg',
-        '/img/make3.jpg',
-        '/img/make4.jpg',
-        '/img/make5.jpg',
-        '/img/make6.jpg',
-        '/img/make7.jpg',
-        '/img/make8.jpg',
+        base + 'img/make2.jpg',
+        base + 'img/make3.jpg',
+        base + 'img/make4.jpg',
+        base + 'img/make5.jpg',
+        base + 'img/make6.jpg',
+        base + 'img/make7.jpg',
+        base + 'img/make8.jpg',
+
+        // '/img/make2.jpg',
+        // '/img/make3.jpg',
+        // '/img/make4.jpg',
+        // '/img/make5.jpg',
+        // '/img/make6.jpg',
+        // '/img/make7.jpg',
+        // '/img/make8.jpg',
         ],
-        designbackgroundImage: '/img/make2.jpg',
+        designbackgroundImage: base + 'palma_02.jpg',
       },
       { 
         year: '2021', 
@@ -372,12 +415,18 @@ export default defineComponent({
         desc:'(주)농심 안양공장 홍보관 내부사인물 프로젝트' ,
         used:'Adobe Illustrator, Adobe Photoshop',
         images:[
-          '/img/nong_1.jpg',
-          '/img/nong_2.jpg',
-          '/img/nong_3.jpg',
-          '/img/nong_4.jpg',
+          base + 'img/nong_1.jpg',
+          base + 'img/nong_2.jpg',
+          base + 'img/nong_3.jpg',
+          base + 'img/nong_4.jpg',
+
+          // '/img/nong_1.jpg',
+          // '/img/nong_2.jpg',
+          // '/img/nong_3.jpg',
+          // '/img/nong_4.jpg',
         ],
-        designbackgroundImage: '/img/nong_3.jpg',
+        designbackgroundImage: base + 'palma_02.jpg',
+        //designbackgroundImage: '/img/nong_3.jpg',
       },
     ]);
     const designIndex = ref(0);
@@ -385,21 +434,39 @@ export default defineComponent({
 
     const isDesignVideoBackground = computed(() => {
       const bg = designCurrentProject.value?.designbackgroundImage
+      
       if (!bg) return false
       return bg.toLowerCase().endsWith('.mp4')
     })
-    const designSectionStyle = computed(() => {
-      if (!designCurrentProject.value) return {}
-      const bg = designCurrentProject.value.designbackgroundImage
-      return isDesignVideoBackground.value
-        ? { backgroundColor: '#111' }
-        : {
-            backgroundImage: `url(${bg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }
-    })
+const designSectionStyle = computed(() => {
+  if (!designCurrentProject.value) return {};
+
+  if (isDesignVideoBackground.value) {
+    return {
+      backgroundColor: '#111'
+    };
+  } else {
+    let bg = designCurrentProject.value.designbackgroundImage;
+    if (!bg) return {};
+
+    const baseUrl = process.env.VUE_APP_BASE_URL || '';
+    if (bg.startsWith('/') && baseUrl) {
+      bg = baseUrl + bg.slice(1);
+    }
+
+
+    const url = bg.startsWith('url(') ? bg : `url(${bg})`;
+
+    return {
+      backgroundImage: url,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+    };
+  }
+});
+
+
     const designPopupVisible = ref(false)
     const designSelectedProject = ref(null)
     const designImageIndex = ref(0)
