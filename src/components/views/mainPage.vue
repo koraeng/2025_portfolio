@@ -25,7 +25,7 @@
               HTML, CSS, JavaScript를 활용한 정확하고 효율적인 코딩과 크로스브라우징, 반응형 웹 구현 능력을 갖추었으며, SEO와 웹 접근성 기준을 철저히 반영하여 언제나 최적의 사용자 경험을 실현하고자 노력하고 있습니다.<br>
               특히 브랜드의 핵심 메시지와 정체성을 명확하게 시각화하고, 오프라인과 온라인을 아우르는 통합 퍼블리싱 전략을 수립 및 실행하는 데 강점을 가지고 있습니다.<br>
               앞으로도 다양한 플랫폼에서 차별화된 사용자 경험과 일관된 브랜드 아이덴티티를 완성하는 웹 퍼블리셔로 성장해 나가겠습니다.
-              <a href="https://www.notion.so/216ffb53e14a8041af09de3909825c86?source=copy_link" target="_blank"><font-awesome-icon :icon="['fas', 'circle-chevron-right']" />자기소개 더보기</a></h4>
+              <a href="https://www.notion.so/HanYeRin-216ffb53e14a8041af09de3909825c86?source=copy_link" target="_blank"><font-awesome-icon :icon="['fas', 'circle-chevron-right']" />자기소개 더보기</a></h4>
           </hgroup>
         </section>
         <section id="Section3" ref="containerRef" :style="sectionStyle">
@@ -124,13 +124,13 @@
           <!-- ✅ 디자인 프로젝트용 팝업 -->
           <template v-else-if="popupType === 'design' && designSelectedProject">
             <div class="popImgContainer" v-if="designSelectedProject.images?.length">
-              <button class="prevBtn" @click="prevImage">◀</button>
+               <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
               <img
                 :src="designSelectedProject.images[currentImageIndex]"
                 alt="Project Image"
                 class="slide-image"
               />
-              <button class="nextBtn" @click="nextImage">▶</button>
+              <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
             </div>
             <div class="introContainer">
               <h2>💼{{ designSelectedProject.title }}</h2>
@@ -163,7 +163,7 @@ export default defineComponent({
   },
   setup() {
     let rafId = null
-    const sectionIds = ['Section2', 'Section3', 'Section4'];
+    const sectionIds = ['Section1','Section2', 'Section3', 'Section4'];
     const currentSectionIndex = ref(0);
     let isScrolling = false;
     const handleWheel = (event) => {
