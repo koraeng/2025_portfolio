@@ -58,7 +58,7 @@ h1, h2, h3, h4 {
 .Main_Container {
     display: grid;
     grid-template-columns: 120px repeat(12, 1fr) 120px;
-    grid-template-rows: calc(100% - 60px) 100% 100% 100%;
+    grid-template-rows: calc(100% - 60px) 100% 100% 100% ;
     -moz-column-gap: 24px;
     column-gap: 24px;
     width: 100%;
@@ -72,21 +72,91 @@ h1, h2, h3, h4 {
     align-items: center;
 }
 .Main_Title h3 {
+    position: relative; /* 부모 기준으로 절대 위치 */
+    top: 50%;
+    left: 0%;
+
     font-size:2.4rem;
-    font-style: italic;
+    padding-bottom: 3.6rem;
+    animation: blur 4.5s both cubic-bezier(0, 0, 0.2, 1),fadeOut 0.5s both ease;
+    animation-delay: 0s, 4.5s;
+    /* font-style: italic; */
+}
+@keyframes blur {
+    0% {
+        opacity:0;
+        filter: blur(15px);
+    }
+    100% {
+        opacity:1;
+        filter: blur(0);
+
+    }
+}
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
 }
 .Main_Title h2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.Main_Title h2 span{
     font-family: Shrikhand, sans-serif;
     font-size:7.2rem;
-    color: rgba(255, 255, 255, 0.2); 
-    background-size: 101% 100%; 
+    color: #fff;
+    /* background-size: 101% 100%; 
     background-position: left 0px bottom -40px;
     background-repeat: repeat-x;
     -webkit-background-clip: text; 
     -moz-background-clip: text; 
     background-clip: text;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 90 240 300' preserveAspectRatio='none'%3E%3Crect x='0' y='0' width='500' height='800' style='stroke: none; fill: rgb(22,255,244);' /%3E%3Cpath d='M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z' style='stroke: none;'%3E%3C/path%3E%3C/svg%3E");
-    animation: wave 3s both linear infinite
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 90 240 300' preserveAspectRatio='none'%3E%3Crect x='0' y='0' width='500' height='800' style='stroke: none; fill: rgb(22,255,244);' /%3E%3Cpath d='M0,100 C150,200 350,0 500,100 L500,00 L0,0 Z' style='stroke: none;'%3E%3C/path%3E%3C/svg%3E"); */
+}
+.Main_Title h2 span:first-child {
+    animation: fade 4.5s both cubic-bezier(0, 0, 0.2, 1);
+    animation-delay: 5s; 
+}
+.Main_Title h2 span:nth-child(2) {
+
+    animation: fade 4.5s both cubic-bezier(0, 0, 0.2, 1);
+    animation-delay: 6.25s;
+}
+.Main_Title h2 span:last-child {
+    position: relative;
+    animation: fade 4.5s both cubic-bezier(0, 0, 0.2, 1);
+    animation-delay: 7.5s;
+}
+.Main_Title h2 span:last-child::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 11px;
+    background-color: #10ffd3;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: borderExpand 2s ease forwards;
+    animation-delay: 7.5s; /* 이전 애니메이션들 (6s + 10s) 끝나고 실행 */
+}
+@keyframes borderExpand {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity:0
+    }
+
+    100% {
+        opacity:1
+    }
 }
 @keyframes wave {
     0% {
@@ -95,12 +165,14 @@ h1, h2, h3, h4 {
     100% { 
         background-position: left 1500px bottom 20px;
     }
-}
+} 
 .Main_Title h4 {
     padding:20px 0 0 0;
     font-size:2rem;
     text-align: center;
     line-height: 1.8;
+    animation: fade 6.5s both cubic-bezier(0.45, 0.05, 0.55, 0.95);
+    animation-delay: 9.5s;
 }
 #Section2 {
     grid-row: 2;
@@ -148,15 +220,24 @@ h1, h2, h3, h4 {
     color:#fff;
     text-decoration: none;
     width: 170px;
+    background-image: linear-gradient(
+        to right,
+        rgb(22, 255, 255) 50%,
+        white 50%
+    );
+    background-size: 200% 100%;
+    background-position: right bottom;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 2s ease;
+    font-weight: 500;
 }
 #Section2 h4 a:hover {
     width: auto;
-    transform: scaleX(1);
-    transform-origin: 0 50%;
-    transition-timing-function: cubic-bezier(.7,0,.2,1);
+    background-position: left bottom;
     font-weight: 500;
-    color:rgb(22,255,255)
 }
+
 svg.svg-inline--fa:not(:root),
 svg.svg-inline--fa:not(:host) {
     margin-right: 10px;

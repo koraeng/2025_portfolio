@@ -6,7 +6,11 @@
         <section id="Section1">
           <hgroup class="Main_Title">
             <h3>'기초가 단단하면, 무엇이든 견고하게 완성됩니다.'</h3>
-            <h2>Build the structure of WEB</h2>
+            <h2>
+              <span>Build </span>
+              <span>the structure of</span>
+              <span>'WEB'</span>
+            </h2>
             <h4>수많은 매장의 첫인상을 설계하며 깨달은 ‘기초의 힘’을 웹으로 확장했습니다.<br>사용자에게 강렬한 첫인상을 남기기 위한 웹 퍼블리싱, 그 시작과 완성을 책임지는 웹 퍼블리셔, 한예린 입니다.</h4>
           </hgroup>
           <!-- <ul class="MenuBtn_Container">
@@ -83,64 +87,65 @@
           </div>
         </section>
 
-      <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
-        <div class="popup-content">
-          <div class="popBtnContainer">
-            <h4>Project Info</h4>
-            <button @click="closePopup">닫기</button>
-          </div>
-
-          <!-- ✅ 개발 프로젝트용 팝업 -->
-          <template v-if="popupType === 'dev' && selectedProject">
-            <div class="popImgContainer" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">
-              <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
-            <img
-                :src="popupType === 'dev' ? selectedProject.images[currentImageIndex] : designSelectedProject.images[currentImageIndex]"
-                alt="Project Image"
-                class="slide-image"
-              />
-              <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
+        <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
+          <div class="popup-content">
+            <div class="popBtnContainer">
+              <h4>Project Info</h4>
+              <button @click="closePopup">닫기</button>
             </div>
-            <div class="introContainer">
-              <h2>💼{{ selectedProject.title }}</h2>
-              <p><strong>개발기간</strong><br>{{ selectedProject.year }}</p>
-              <p><strong>담당역할</strong><br>{{ selectedProject.role }}</p>
-              <p><strong>사용기술</strong><br>{{ selectedProject.used }}</p>
-              <div class="descContainer">
-                <h2>📌프로젝트 개요</h2>
-                <p>{{ selectedProject.intro }}</p>
-              </div>
-              <div class="workContainer">
-                <h2>🔧주요업무 및 역할</h2>
-                <p v-html="selectedProject.work"></p>
-              </div>
-              <div class="majorContainer">
-                <h2>📊 주요기능</h2>
-                <p v-html="selectedProject.major"></p>
-              </div>
-            </div>
-          </template>
 
-          <!-- ✅ 디자인 프로젝트용 팝업 -->
-          <template v-else-if="popupType === 'design' && designSelectedProject">
-            <div class="popImgContainer" v-if="designSelectedProject.images?.length">
-               <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
+            <!-- ✅ 개발 프로젝트용 팝업 -->
+            <template v-if="popupType === 'dev' && selectedProject">
+              <div class="popImgContainer" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">
+                <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
               <img
-                :src="designSelectedProject.images[currentImageIndex]"
-                alt="Project Image"
-                class="slide-image"
-              />
-              <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
-            </div>
-            <div class="introContainer">
-              <h2>💼{{ designSelectedProject.title }}</h2>
-              <p><strong>기획기간</strong><br>{{ designSelectedProject.year }}</p>
-              <p><strong>기획분야</strong><br>{{ designSelectedProject.role }}</p>
-              <p><strong>사용기술</strong><br>{{ designSelectedProject.used }}</p>
-            </div>
-          </template>
+                  :src="popupType === 'dev' ? selectedProject.images[currentImageIndex] : designSelectedProject.images[currentImageIndex]"
+                  alt="Project Image"
+                  class="slide-image"
+                />
+                <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
+              </div>
+              <div class="introContainer">
+                <h2>💼{{ selectedProject.title }}</h2>
+                <p><strong>개발기간</strong><br>{{ selectedProject.year }}</p>
+                <p><strong>담당역할</strong><br>{{ selectedProject.role }}</p>
+                <p><strong>사용기술</strong><br>{{ selectedProject.used }}</p>
+                <div class="descContainer">
+                  <h2>📌프로젝트 개요</h2>
+                  <p>{{ selectedProject.intro }}</p>
+                </div>
+                <div class="workContainer">
+                  <h2>🔧주요업무 및 역할</h2>
+                  <p v-html="selectedProject.work"></p>
+                </div>
+                <div class="majorContainer">
+                  <h2>📊 주요기능</h2>
+                  <p v-html="selectedProject.major"></p>
+                </div>
+              </div>
+            </template>
+
+            <!-- ✅ 디자인 프로젝트용 팝업 -->
+            <template v-else-if="popupType === 'design' && designSelectedProject">
+              <div class="popImgContainer" v-if="designSelectedProject.images?.length">
+                <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
+                <img
+                  :src="designSelectedProject.images[currentImageIndex]"
+                  alt="Project Image"
+                  class="slide-image"
+                />
+                <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
+              </div>
+              <div class="introContainer">
+                <h2>💼{{ designSelectedProject.title }}</h2>
+                <p><strong>기획기간</strong><br>{{ designSelectedProject.year }}</p>
+                <p><strong>기획분야</strong><br>{{ designSelectedProject.role }}</p>
+                <p><strong>사용기술</strong><br>{{ designSelectedProject.used }}</p>
+              </div>
+            </template>
+          </div>
         </div>
-      </div>
+        <!-- <FooterComponent /> -->
         <ul class="MenuBtn_Container">
  <li><a href="#" @click.prevent="scrollToSection('Section2')">Introduce</a></li>
   <li><a href="#" @click.prevent="scrollToSection('Section3')">Web Projects</a></li>
@@ -149,17 +154,19 @@
         <button class="onClickTop" @click="onClickTop">Top</button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import { defineComponent,   onMounted, onBeforeUnmount, ref, computed } from 'vue'
 import HeaderComponent from "../HeaderComponent.vue"
-
+//import FooterComponent from "../FooterComponent.vue"
 
 export default defineComponent({
   components: {
-    HeaderComponent
+    HeaderComponent,
+    //FooterComponent
   },
   setup() {
     let rafId = null
@@ -219,7 +226,7 @@ export default defineComponent({
           base + 'img/bimil-bg.png',
         ],
         //backgroundImage: '/ArchiFlim_EX.gif',
-        backgroundImage: base + 'ArchiFlim_EX.gif',
+        backgroundImage: base + 'img/bimil-2.png',
       },
       { 
         year: '2024 - 2025', 
@@ -362,17 +369,35 @@ function openPopup(project, type) {
       cancelAnimationFrame(rafId);
     });
 
-    const nextImage = () => {
-      const total = selectedProject.value.images?.length || 0
-      if (total === 0) return
-      currentImageIndex.value = (currentImageIndex.value + 1) % total
-    }
+const nextImage = () => {
+  let images = []
 
-    const prevImage = () => {
-      const total = selectedProject.value.images?.length || 0
-      if (total === 0) return
-      currentImageIndex.value = (currentImageIndex.value - 1 + total) % total
-    }
+  if (popupType.value === 'design') {
+    images = designSelectedProject.value?.images || []
+  } else if (popupType.value === 'dev') {
+    images = selectedProject.value?.images || []
+  }
+
+  const total = images.length
+  if (total === 0) return
+
+  currentImageIndex.value = (currentImageIndex.value + 1) % total
+}
+
+const prevImage = () => {
+  let images = []
+
+  if (popupType.value === 'design') {
+    images = designSelectedProject.value?.images || []
+  } else if (popupType.value === 'dev') {
+    images = selectedProject.value?.images || []
+  }
+
+  const total = images.length
+  if (total === 0) return
+
+  currentImageIndex.value = (currentImageIndex.value - 1 + total) % total
+}
     function findScrollable(el = document.body) {
       if (!el) return null;
       if (el.scrollHeight > el.clientHeight && getComputedStyle(el).overflowY !== 'visible' && getComputedStyle(el).overflowY !== 'hidden') {
