@@ -1,54 +1,217 @@
 <template>
-  <div id="Root">
+  <div id="Web_Root">
     <HeaderComponent />
-    <div class="Main_Wrapper">
-      <div class="Main_Container">
-        <section id="Section1">
-          <hgroup class="Main_Title">
-            <h3>'기초가 단단하면, 무엇이든 견고하게 완성됩니다.'</h3>
-            <h2>
-              <span>Build </span>
-              <span>the structure of</span>
-              <span>'WEB'</span>
-            </h2>
-            <h4>수많은 매장의 첫인상을 설계하며 깨달은 ‘기초의 힘’을 웹으로 확장했습니다.<br>사용자에게 강렬한 첫인상을 남기기 위한 웹 퍼블리싱, 그 시작과 완성을 책임지는 웹 퍼블리셔, 한예린 입니다.</h4>
-          </hgroup>
-          <!-- <ul class="MenuBtn_Container">
-            <li>Introduce</li>
-            <li>Web Projects</li>
-            <li>Design Projects</li>
-          </ul> -->
-        </section>
-        <section id="Section2">
-          <hgroup>
-            <h3>Introduce</h3>
-            <h2>Foundation fuels <span>'Excellence'</span></h2>
-            <h4>
-              7년간 오프라인 공간의 첫인상을 설계하며 기획부터 제작, 감리까지 전 과정을 책임졌습니다. 특히 사용자 동선과 설치 환경을 고려한 사인물 구조 설계와 시각 정보 전달에 집중했습니다.<br>
-              이 경험을 바탕으로 웹 퍼블리싱을 학습하며, HTML/CSS 기반 웹 레이아웃 구성과 UX 설계가 공간 디자인과 본질적으로 닮아 있다는 걸 깨달았습니다.<br>
-              구조를 설계하고 정보를 시각적으로 배치하는 과정이 같았고, 사용자 관점에서 생각하는 태도는 그대로 이어졌습니다.<br>
-              오프라인에서 쌓은 사용자 중심 설계 경험을 웹에 적용해, 누구나 직관적으로 정보를 탐색할 수 있는 구조를 구현하는 퍼블리셔로 성장 중입니다.
-              <a href="https://www.notion.so/HanYeRin-216ffb53e14a8041af09de3909825c86?source=copy_link" target="_blank"><font-awesome-icon :icon="['fas', 'circle-chevron-right']" />자기소개 더보기</a></h4>
-          </hgroup>
-        </section>
+    <div class="Web_Wrapper">
+      <div class="Web_Container">
+        <section id="Web_S1">
+          <div class="Web_S1Wrap">
+            <div class="AllProjects">
+              <div
+                class="Proj_Container"
+                v-for="(project, index) in projects"
+                :key="index"
+              >
+                <div class="test">
+                  <ul class="Proj_Title">
+                    <li class="date">{{ project.year }}</li>
+                    <li class="Title">{{ project.title }}</li>
+                    <li class="role">{{ project.role }}</li>
+                    <li class="desc">{{ project.desc }}</li>
+                  </ul>
+                  <div class="Btn_Container">
+                    <button @click="openPopup(project, 'dev')">View More</button>
+                  </div>
+                </div>
 
-        <!-- <FooterComponent /> -->
-        <ul class="MenuBtn_Container">
-          <li><a href="#" @click.prevent="scrollToSection('Section2')">Introduce</a></li>
-            <li><router-link to="/web" target="_blank">Web Projects</router-link></li>
-            <li><a href="#" @click.prevent="scrollToSection('Section4')">Design Projects</a></li>
-        </ul>
+                <div
+                  class="projBg"
+                  :style="sectionStyle(project)"
+                >
+                  <video
+                    v-if="isVideo(project.backgroundImage)"
+                    class="bg-video"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    :src="project.backgroundImage"
+                  ></video>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </section>
+        <div v-if="popupVisible" class="popup-overlay" @click.self="closePopup">
+          <div class="popup-content">
+            <div class="popBtnContainer">
+              <h4>Project Info</h4>
+              <button @click="closePopup">닫기</button>
+            </div>
+
+            <!-- ✅ 개발 프로젝트용 팝업 -->
+            <template v-if="popupType === 'dev' && selectedProject">
+              <div class="popImgContainer" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">
+                <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
+              <img
+                  :src="popupType === 'dev' ? selectedProject.images[currentImageIndex] : designSelectedProject.images[currentImageIndex]"
+                  alt="Project Image"
+                  class="slide-image"
+                />
+                <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
+              </div>
+              <div class="introContainer">
+                <h2>💼{{ selectedProject.title }}</h2>
+                <p><strong>개발기간</strong><br>{{ selectedProject.year }}</p>
+                <p><strong>담당역할</strong><br>{{ selectedProject.role }}</p>
+                <p><strong>사용기술</strong><br>{{ selectedProject.used }}</p>
+                <div class="descContainer">
+                  <h2>📌프로젝트 개요</h2>
+                  <p>{{ selectedProject.intro }}</p>
+                </div>
+                <div class="workContainer">
+                  <h2>🔧주요업무 및 역할</h2>
+                  <p v-html="selectedProject.work"></p>
+                </div>
+                <div class="majorContainer">
+                  <h2>📊 주요기능</h2>
+                  <p v-html="selectedProject.major"></p>
+                </div>
+              </div>
+            </template>
+
+            <!-- ✅ 디자인 프로젝트용 팝업 -->
+            <!-- <template v-else-if="popupType === 'design' && designSelectedProject">
+              <div class="popImgContainer" v-if="designSelectedProject.images?.length">
+                <button class="prevBtn" @click="prevImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">◀</button>
+                <img
+                  :src="designSelectedProject.images[currentImageIndex]"
+                  alt="Project Image"
+                  class="slide-image"
+                />
+                <button class="nextBtn" @click="nextImage" v-if="(popupType === 'dev' && selectedProject?.images?.length) || (popupType === 'design' && designSelectedProject?.images?.length)">▶</button>
+              </div>
+              <div class="introContainer">
+                <h2>💼{{ designSelectedProject.title }}</h2>
+                <p><strong>기획기간</strong><br>{{ designSelectedProject.year }}</p>
+                <p><strong>기획분야</strong><br>{{ designSelectedProject.role }}</p>
+                <p><strong>사용기술</strong><br>{{ designSelectedProject.used }}</p>
+              </div>
+            </template> -->
+          </div>
+        </div>
+
         <button class="onClickTop" @click="onClickTop">Top</button>
       </div>
     </div>
-
   </div>
+    <!-- <div class="relative flex size-full min-h-screen flex-col bg-[#121416] dark group/design-root overflow-x-hidden" style='font-family: "Space Grotesk", "Noto Sans", sans-serif;'>
+      <div class="layout-container flex h-full grow flex-col">
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div class="flex flex-wrap justify-between gap-3 p-4">
+              <div class="flex min-w-72 flex-col gap-3">
+                <p class="text-white tracking-light text-[32px] font-bold leading-tight">Web Projects</p>
+                <p class="text-[#a2abb3] text-sm font-normal leading-normal">A collection of web design and development projects showcasing my skills and experience.</p>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-white text-base font-bold leading-tight">E-commerce Platform for Local Artisans</p>
+                    <p class="text-[#a2abb3] text-sm font-normal leading-normal">
+                      Developed a responsive e-commerce platform for local artisans to showcase and sell their handmade products. The platform features a user-friendly interface,
+                      secure payment gateway integration, and inventory management system.
+                    </p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#2c3135] text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">View Live Site</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBVm5K6Fw3vc6eM2d029AHwjpj_DOGEAvqeVm9Samejr7oI5aslUecOWuMWdo2578pRiogTPa6dUCDqs-pklUADf99FFugvNVudVY_lXgPro5rL72MN9NtJDME3LTRhRnoh33srChso4FozWZm-c-4-zE0_EOVaPkTkuwLl4TFaRPhw7CTuEsgFdyEa0SUtddQbOXvG0iuogKMndxkQobqjs7QbdHv8Bofog5PddIOMKiM3vjHyBw3_LkC7XxR8iQecbjjTeAhKXK0");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-white text-base font-bold leading-tight">Portfolio Website for Photographer</p>
+                    <p class="text-[#a2abb3] text-sm font-normal leading-normal">
+                      Designed and developed a portfolio website for a professional photographer to showcase their work. The website features a clean and modern design, image
+                      galleries, and a contact form.
+                    </p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#2c3135] text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">View Live Site</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBI0nX76IBLb5sujTr2raOKI3qTmYRPdh-ZJkI5SzkadgcSGa8z_c6xvav5XeXz3qSBYrl_NXnDxAjrwr9dbTJMrMZfWZtzMrZiP6zI37VpdoioYTbMBMNRRzZB3IoK9w7iQa2HRdu-LQ1lSOnGqbZR-U4up4733rHGkdNHNr1K5IEqNLjxBs_cizxrvaC6AdTQM6h7fhRbCRNQ_0YhLAyKtDKKtWcfg5rOkOYdmcct5CMwKaXDbnYD2_gaz_nLHPHpt-EFlRZ4fag");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-white text-base font-bold leading-tight">Blog Platform for Travel Enthusiasts</p>
+                    <p class="text-[#a2abb3] text-sm font-normal leading-normal">
+                      Created a blog platform for travel enthusiasts to share their experiences and tips. The platform includes features such as user authentication, post creation
+                      and editing, commenting, and social media integration.
+                    </p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#2c3135] text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">View Live Site</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7Jjt92q3sYcmZoesfOg2s80IAhsyHZbHRrAPStjYwuDGMic825FGjkuLdEK8VVdRc2R8Os1H41a2iwkPDd6M6xboHhm1RBN4a7SPE6EjMNbOuIwG1P_AAkBRaFzl_sgs0TjjXgkfSFkFw7KEbVit5LK7Okq1rflFnMQORJQnIGy2F-qGXMd3n9g7YS3xQnvGeK62G1PHn9iRQyc8fyKmD41hR8KX_ytsqxflbqAkfL7u-FruizeSwpS-wOpMu54fOu8kNHe6dsVE");'
+                ></div>
+              </div>
+            </div>
+            <div class="p-4">
+              <div class="flex items-stretch justify-between gap-4 rounded-xl">
+                <div class="flex flex-[2_2_0px] flex-col gap-4">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-white text-base font-bold leading-tight">Landing Page for Tech Startup</p>
+                    <p class="text-[#a2abb3] text-sm font-normal leading-normal">
+                      Designed and developed a landing page for a tech startup to promote their new product. The landing page features a compelling headline, clear call-to-action,
+                      and visually appealing graphics.
+                    </p>
+                  </div>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-8 px-4 flex-row-reverse bg-[#2c3135] text-white text-sm font-medium leading-normal w-fit"
+                  >
+                    <span class="truncate">View Live Site</span>
+                  </button>
+                </div>
+                <div
+                  class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl flex-1"
+                  style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBEsie7Kpw0-uj0CJEvneNYdpCKp1UyB37rTMAnzb0Kxet_OddQqta72ZEhnj-PgmlU-VSwIY0qv34UcshzEysgimr7xs2OXG2244nw7PxQ5iDOBH7aqtXEOCOO_AK-MVo5Da2Ga7earsMpDmerABBgmJYUuSuK0IBjuE8b3IFQXQICFjoY-KWYRGHkpjTL_q3oZWSfV3PnrhQgWCj65wmFSejfCuLzi6VUxWM-2LQ1C3LDV9VuPZiLLe2zFPWAuWTHvllu1_0knEI");'
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
 </template>
-
 <script>
 import { defineComponent,   onMounted, onBeforeUnmount, ref, computed } from 'vue'
 import HeaderComponent from "../HeaderComponent.vue"
-//import FooterComponent from "../FooterComponent.vue"
 
 export default defineComponent({
   components: {
@@ -57,7 +220,7 @@ export default defineComponent({
   },
   setup() {
     let rafId = null
-    const sectionIds = ['Section1','Section2', 'Section3', 'Section4'];
+    const sectionIds = ['Web_S1'];
     const currentSectionIndex = ref(0);
     let isScrolling = false;
     const handleWheel = (event) => {
@@ -92,6 +255,7 @@ export default defineComponent({
       }
     };
 
+    
     const containerRef = ref(null)
     //const designcontainerRef = ref(null);
     const base = process.env.BASE_URL || '/';
@@ -113,7 +277,7 @@ export default defineComponent({
           base + 'img/bimil-bg.png',
         ],
         //backgroundImage: '/ArchiFlim_EX.gif',
-        backgroundImage: base + 'img/bimil-2.png',
+        backgroundImage: base + 'img/bimil-1.png',
       },
       { 
         year: '2024 - 2025', 
@@ -186,40 +350,45 @@ export default defineComponent({
 
 
     // backgroundImage가 mp4 파일인지 확인하는 함수
-    const isVideoBackground = computed(() => {
-      if (!currentProject.value?.backgroundImage) return false;
-      return currentProject.value.backgroundImage.toLowerCase().endsWith('.mp4');
-    });
+    // const isVideoBackground = computed(() => {
+    //   if (!currentProject.value?.backgroundImage) return false;
+    //   return currentProject.value.backgroundImage.toLowerCase().endsWith('.mp4');
+    // });
 
+    const isVideo = (url) => {
+      return url?.toLowerCase().endsWith('.mp4');
+    };
 
-  const sectionStyle = computed(() => {
-    if (!currentProject.value) return {};
+const sectionStyle = (project) => {
+  if (!project) return {};
 
-    if (isVideoBackground.value) {
-      return {
-        backgroundColor: '#000'
-      };
-    } else {
-      let bg = currentProject.value.backgroundImage;
-      if (!bg) return {};
+  const bg = project.backgroundImage;
+  if (!bg) return {};
 
-      // vue-cli 환경에서는 import.meta.env 대신 process.env 사용
-      const baseUrl = process.env.VUE_APP_BASE_URL || '';
+  if (isVideo(bg)) {
+    return {
+      backgroundColor: '#000',
+      width: '100%',
 
-      if (bg.startsWith('/') && baseUrl) {
-        bg = baseUrl + bg.slice(1);
-      }
+      position: 'relative',
+    };
+  }
 
-      const url = bg.startsWith('url(') ? bg : `url(${bg})`;
+  const baseUrl = process.env.VUE_APP_BASE_URL || '';
+  const fullUrl = bg.startsWith('/') && baseUrl ? baseUrl + bg.slice(1) : bg;
+  const backgroundUrl = fullUrl.startsWith('url(') ? fullUrl : `url(${fullUrl})`;
 
-      return {
-        backgroundImage: url,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      };
-    }
-  });
+  return {
+    backgroundImage: backgroundUrl,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    width: '100%',
+
+    position: 'relative',
+  };
+};
+
 
 
     const prevProject = () => {
@@ -435,7 +604,7 @@ const nextDesignProject = () => {
       nextImage,
       onClickTop,
       projects,
-      isVideoBackground,
+      isVideo,
 
       designSectionStyle,
       designPopupVisible,
@@ -455,8 +624,5 @@ const nextDesignProject = () => {
 </script>
 
 <style scoped>
-  @import url('../../assets/main.css');
-  :global(html) {
-  scroll-behavior: smooth;
-}
+@import url('../../assets/webproj.css');
 </style>
